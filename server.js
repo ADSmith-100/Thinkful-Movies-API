@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const helmet = require("helmet");
 require("dotenv").config();
 
 const app = express();
@@ -9,6 +10,7 @@ const MOVIES = require("./movies-data-small.json");
 
 app.use(morgan("dev"));
 app.use(cors());
+app.use(helmet());
 app.use(validateBearerToken);
 
 app.get("/movie", handleGetMovies);
@@ -42,7 +44,7 @@ function handleGetMovies(req, res) {
 
   if (req.query.avg_vote) {
     response = response.filter((movie) => {
-      return movie.avg_vote >= req.query.avg_vote;
+      return Number(movie.avg_vote) >= Number(req.query.avg_vote);
     });
   }
 
