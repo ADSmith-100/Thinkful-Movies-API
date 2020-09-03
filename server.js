@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
@@ -7,6 +8,7 @@ const PORT = 8000;
 const MOVIES = require("./movies-data-small.json");
 
 app.use(morgan("dev"));
+app.use(cors());
 app.use(validateBearerToken);
 
 app.get("/movie", handleGetMovies);
